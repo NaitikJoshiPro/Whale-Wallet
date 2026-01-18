@@ -1,148 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sign in to Whale Wallet - Sovereign Wealth Preservation">
-    <meta name="theme-color" content="#0a0a0f">
-
     <title>Login - Whale Wallet</title>
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Styles -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="/static/css/main.css">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐋</text></svg>">
 </head>
 
 <body>
     <div class="login-container">
         <div class="card login-card">
-            <div class="login-logo">
-                <div class="login-logo-icon">🐋</div>
-                <h1 class="text-gradient">Whale Wallet</h1>
-                <p>Sovereign Wealth Preservation</p>
+            <div class="login-header">
+                <div class="login-logo">W</div>
+                <div class="login-tagline">Sovereign Wealth Preservation</div>
             </div>
 
             <form id="login-form" onsubmit="handleLogin(event)">
                 <div class="form-group">
-                    <label class="form-label" for="email">Email Address</label>
-                    <input type="email" id="email" name="email" class="form-input" placeholder="whale@example.com"
-                        required>
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="email" placeholder="you@example.com" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="password">Password</label>
-                    <input type="password" id="password" name="password" class="form-input" placeholder="••••••••••••"
-                        required>
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="password" placeholder="Enter password" required>
                 </div>
 
-                <div class="flex justify-between items-center mb-lg">
-                    <label class="flex items-center gap-sm text-sm">
-                        <input type="checkbox" id="remember" style="width: 16px; height: 16px;">
-                        <span class="text-secondary">Remember me</span>
-                    </label>
-                    <a href="#" class="text-sm">Forgot password?</a>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" id="login-btn">
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px;" id="login-btn">
                     Sign In
                 </button>
             </form>
 
-            <div class="mt-xl" style="text-align: center;">
-                <p class="text-secondary text-sm mb-md">Or continue with</p>
-                <div class="flex gap-md justify-center">
-                    <button class="btn btn-secondary" style="flex: 1;" onclick="demoLogin()">
-                        🔓 Demo Mode
-                    </button>
-                    <button class="btn btn-secondary" style="flex: 1;" disabled>
-                        📱 Mobile App
-                    </button>
-                </div>
+            <div style="text-align: center; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border);">
+                <button class="btn" style="width: 100%;" onclick="demoLogin()">
+                    Enter Demo Mode
+                </button>
             </div>
 
-            <div class="mt-xl"
-                style="text-align: center; border-top: 1px solid var(--color-border); padding-top: var(--space-lg);">
-                <p class="text-secondary text-sm">
-                    Don't have an account?
-                    <a href="#" onclick="showRegister()">Create one</a>
-                </p>
+            <div style="text-align: center; margin-top: 24px;">
+                <span style="font-size: 11px; color: var(--text-muted);">
+                    MPC · 2-of-3 Threshold · End-to-End Encrypted
+                </span>
             </div>
         </div>
     </div>
 
-    <!-- MPC Security Badge -->
-    <div
-        style="position: fixed; bottom: var(--space-xl); left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: var(--space-md); padding: var(--space-sm) var(--space-lg); background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-full);">
-        <span style="color: var(--color-success);">●</span>
-        <span class="text-sm text-secondary">Secured by 2-of-3 MPC Threshold Signing</span>
-    </div>
+    <div class="toast-container" id="toast-container"></div>
 
     <script src="/static/js/main.js"></script>
     <script>
         async function handleLogin(event) {
             event.preventDefault();
-
             const btn = document.getElementById('login-btn');
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            WhaleWallet.Loading.button(btn, true);
+            btn.disabled = true;
+            btn.textContent = 'Signing in...';
 
             try {
-                // Create form data for OAuth2 password flow
-                const formData = new URLSearchParams();
-                formData.append('username', email);
-                formData.append('password', password);
+                // Simulate login
+                await new Promise(resolve => setTimeout(resolve, 1000));
 
-                const response = await fetch('/api/v1/auth/token', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: formData
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    WhaleWallet.API.setToken(data.access_token);
-                    WhaleWallet.Toast.success('Login successful!');
-                    setTimeout(() => {
-                        window.location.href = '/';
-                    }, 500);
-                } else {
-                    throw new Error(data.detail || 'Login failed');
-                }
+                // Set demo token
+                localStorage.setItem('whale_token', 'demo_token_' + Date.now());
+                window.location.href = '/';
             } catch (error) {
-                WhaleWallet.Toast.error(error.message);
-                WhaleWallet.Loading.button(btn, false);
+                WhaleWallet.Toast.error('Login failed');
+                btn.disabled = false;
+                btn.textContent = 'Sign In';
             }
         }
 
         function demoLogin() {
-            // Set a demo token for testing
-            WhaleWallet.API.setToken('demo_token_for_testing');
-            WhaleWallet.Toast.success('Entering demo mode...');
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 500);
+            localStorage.setItem('whale_token', 'demo_token_' + Date.now());
+            window.location.href = '/';
         }
 
-        function showRegister() {
-            WhaleWallet.Toast.info('Registration coming soon. Use Demo Mode for now.');
-        }
-
-        // If already logged in, redirect to dashboard
-        if (WhaleWallet.API.isAuthenticated()) {
+        // Check if already logged in
+        if (localStorage.getItem('whale_token')) {
             window.location.href = '/';
         }
     </script>

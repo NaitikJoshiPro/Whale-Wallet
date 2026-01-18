@@ -5,6 +5,7 @@
 {% block content %}
 <div class="page-header">
     <div>
+        <div class="page-eyebrow">SYSTEM · SECURITY · CONFIGURATION</div>
         <h1 class="page-title">Settings</h1>
         <p class="page-subtitle">Security configuration and account settings</p>
     </div>
@@ -16,191 +17,174 @@
         <!-- Account Info -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Account</h3>
-                <span class="badge badge-primary">Humpback Tier</span>
+                <span class="card-label">Account</span>
+                <span class="badge badge-info">Humpback Tier</span>
             </div>
-            <div class="flex flex-col gap-md">
-                <div class="flex justify-between items-center">
-                    <span class="text-secondary">Email</span>
-                    <span>whale@example.com</span>
-                </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-secondary">User ID</span>
-                    <span class="mono">usr_demo123456789</span>
-                </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-secondary">Member Since</span>
-                    <span>January 2026</span>
-                </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-secondary">Tier Benefits</span>
-                    <span>0% swap fees, advanced policies</span>
-                </div>
-            </div>
+            <table class="data-table" style="border: none;">
+                <tr>
+                    <td style="color: var(--text-muted); border: none; padding: 8px 0;">Email</td>
+                    <td style="text-align: right; border: none; padding: 8px 0;">whale@example.com</td>
+                </tr>
+                <tr>
+                    <td style="color: var(--text-muted); border: none; padding: 8px 0;">User ID</td>
+                    <td class="mono" style="text-align: right; border: none; padding: 8px 0;">usr_demo123456789</td>
+                </tr>
+                <tr>
+                    <td style="color: var(--text-muted); border: none; padding: 8px 0;">Member Since</td>
+                    <td style="text-align: right; border: none; padding: 8px 0;">January 2026</td>
+                </tr>
+                <tr>
+                    <td style="color: var(--text-muted); border: none; padding: 8px 0;">Benefits</td>
+                    <td style="text-align: right; border: none; padding: 8px 0;">0% swap fees, advanced policies</td>
+                </tr>
+            </table>
         </div>
 
         <!-- MPC Key Status -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">MPC Key Status</h3>
+                <span class="card-label">MPC Key Status</span>
                 <span class="badge badge-success">Healthy</span>
             </div>
-            <div class="mpc-status mb-lg" style="justify-content: space-around;">
-                <div class="mpc-shard">
-                    <div class="mpc-shard-icon active">📱</div>
-                    <span class="mpc-shard-label">Mobile</span>
-                    <span class="text-xs text-success">Active</span>
+            <div class="mpc-grid mb-lg">
+                <div class="mpc-node active">
+                    <div class="mpc-icon">M</div>
+                    <span class="mpc-label">Mobile</span>
                 </div>
-                <div class="mpc-shard">
-                    <div class="mpc-shard-icon active">☁️</div>
-                    <span class="mpc-shard-label">Server</span>
-                    <span class="text-xs text-success">Active</span>
+                <div class="mpc-node active">
+                    <div class="mpc-icon">S</div>
+                    <span class="mpc-label">Server</span>
                 </div>
-                <div class="mpc-shard">
-                    <div class="mpc-shard-icon active">🔑</div>
-                    <span class="mpc-shard-label">Recovery</span>
-                    <span class="text-xs text-success">Active</span>
+                <div class="mpc-node active">
+                    <div class="mpc-icon">R</div>
+                    <span class="mpc-label">Recovery</span>
                 </div>
             </div>
-            <div class="flex flex-col gap-sm mb-lg">
-                <div class="flex justify-between">
-                    <span class="text-secondary">Last Key Rotation</span>
-                    <span>30 days ago</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-secondary">Next Recommended</span>
-                    <span class="text-warning">60 days</span>
-                </div>
-            </div>
-            <button class="btn btn-secondary" style="width: 100%;" onclick="rotateKeys()">
-                🔄 Initiate Key Rotation
+            <table class="data-table" style="border: none;">
+                <tr>
+                    <td style="color: var(--text-muted); border: none; padding: 8px 0;">Last Rotation</td>
+                    <td style="text-align: right; border: none; padding: 8px 0;">30 days ago</td>
+                </tr>
+                <tr>
+                    <td style="color: var(--text-muted); border: none; padding: 8px 0;">Next Recommended</td>
+                    <td style="text-align: right; border: none; padding: 8px 0; color: var(--state-warning);">60 days
+                    </td>
+                </tr>
+            </table>
+            <button class="btn" style="width: 100%; margin-top: 16px;"
+                onclick="WhaleWallet.Toast.info('Key rotation requires mobile app confirmation')">
+                Initiate Key Rotation
             </button>
         </div>
 
         <!-- Duress Mode -->
-        <div class="card" style="border-left: 3px solid var(--color-error);">
+        <div class="card" style="border-left: 3px solid var(--state-error);">
             <div class="card-header">
-                <h3 class="card-title">🚨 Duress Mode</h3>
-                <span class="badge badge-primary">Configured</span>
+                <span class="card-label">Duress Mode</span>
+                <span class="badge">Configured</span>
             </div>
-            <p class="text-secondary mb-lg">
-                If you're ever under physical coercion, enter your duress PIN instead of your normal PIN.
-                This will show a decoy wallet while silently alerting your contacts.
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                Enter duress PIN under coercion to show decoy wallet while alerting contacts.
             </p>
-            <div class="flex flex-col gap-sm mb-lg">
-                <div class="flex justify-between">
-                    <span class="text-secondary">Decoy Wallet Balance</span>
-                    <span>$5,432.10</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-secondary">Alert Contacts</span>
-                    <span>3 configured</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-secondary">Status</span>
-                    <span class="text-success">Ready</span>
-                </div>
-            </div>
-            <button class="btn btn-secondary" style="width: 100%;" onclick="configureDuress()">
-                Configure Duress Mode
-            </button>
+            <table class="data-table" style="border: none;">
+                <tr>
+                    <td style="color: var(--text-muted); border: none; padding: 8px 0;">Decoy Balance</td>
+                    <td class="mono" style="text-align: right; border: none; padding: 8px 0;">$5,432.10</td>
+                </tr>
+                <tr>
+                    <td style="color: var(--text-muted); border: none; padding: 8px 0;">Alert Contacts</td>
+                    <td style="text-align: right; border: none; padding: 8px 0;">3 configured</td>
+                </tr>
+            </table>
+            <button class="btn" style="width: 100%; margin-top: 16px;">Configure Duress Mode</button>
         </div>
     </div>
 
     <!-- Right Column -->
     <div class="flex flex-col gap-lg">
-        <!-- Inheritance / Dead Man's Switch -->
-        <div class="card" style="border-left: 3px solid var(--color-warning);">
+        <!-- Inheritance Protocol -->
+        <div class="card" style="border-left: 3px solid var(--state-warning);">
             <div class="card-header">
-                <h3 class="card-title">⚰️ Inheritance Protocol</h3>
+                <span class="card-label">Inheritance Protocol</span>
                 <span class="badge badge-success">Active</span>
             </div>
-            <p class="text-secondary mb-lg">
-                Dead Man's Switch ensures your assets pass to your heirs if you don't authenticate for an extended
-                period.
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                Dead Man's Switch ensures assets pass to heirs after extended inactivity.
             </p>
-            <div class="flex flex-col gap-sm mb-lg">
-                <div class="flex justify-between">
-                    <span class="text-secondary">Last Ping</span>
-                    <span class="text-success">Just now</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-secondary">Inactivity Threshold</span>
-                    <span>180 days</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-secondary">Days Until Trigger</span>
-                    <span>180</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-secondary">Guardians Configured</span>
-                    <span>3 of 5</span>
-                </div>
-            </div>
-            <div class="flex gap-md">
-                <button class="btn btn-primary" style="flex: 1;" onclick="pingInheritance()">
-                    ✓ Ping Now
-                </button>
-                <button class="btn btn-secondary" style="flex: 1;" onclick="configureInheritance()">
-                    Configure
-                </button>
+            <table class="data-table" style="border: none;">
+                <tr>
+                    <td style="color: var(--text-muted); border: none; padding: 8px 0;">Last Ping</td>
+                    <td style="text-align: right; border: none; padding: 8px 0; color: var(--state-success);">Just now
+                    </td>
+                </tr>
+                <tr>
+                    <td style="color: var(--text-muted); border: none; padding: 8px 0;">Inactivity Threshold</td>
+                    <td style="text-align: right; border: none; padding: 8px 0;">180 days</td>
+                </tr>
+                <tr>
+                    <td style="color: var(--text-muted); border: none; padding: 8px 0;">Days Until Trigger</td>
+                    <td style="text-align: right; border: none; padding: 8px 0;">180</td>
+                </tr>
+                <tr>
+                    <td style="color: var(--text-muted); border: none; padding: 8px 0;">Guardians</td>
+                    <td style="text-align: right; border: none; padding: 8px 0;">3 of 5</td>
+                </tr>
+            </table>
+            <div class="flex gap-md mt-lg">
+                <button class="btn btn-primary" style="flex: 1;"
+                    onclick="WhaleWallet.Toast.success('Ping successful')">Ping Now</button>
+                <button class="btn" style="flex: 1;">Configure</button>
             </div>
         </div>
 
         <!-- Security Preferences -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Security Preferences</h3>
+                <span class="card-label">Security Preferences</span>
             </div>
-            <div class="flex flex-col gap-md">
-                <div class="flex justify-between items-center">
+            <div class="flex flex-col">
+                <div class="flex justify-between items-center"
+                    style="padding: 12px 0; border-bottom: 1px solid var(--border);">
                     <div>
-                        <p class="font-medium">Biometric Authentication</p>
-                        <p class="text-sm text-muted">Require Face ID / fingerprint</p>
+                        <div style="font-weight: 500;">Biometric Authentication</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Require Face ID / fingerprint</div>
                     </div>
                     <label class="switch">
                         <input type="checkbox" checked>
                         <span class="slider"></span>
                     </label>
                 </div>
-
-                <div style="border-top: 1px solid var(--color-border); padding-top: var(--space-md);">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="font-medium">Transaction Simulation</p>
-                            <p class="text-sm text-muted">Always simulate before signing</p>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" checked>
-                            <span class="slider"></span>
-                        </label>
+                <div class="flex justify-between items-center"
+                    style="padding: 12px 0; border-bottom: 1px solid var(--border);">
+                    <div>
+                        <div style="font-weight: 500;">Transaction Simulation</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Always simulate before signing</div>
                     </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
                 </div>
-
-                <div style="border-top: 1px solid var(--color-border); padding-top: var(--space-md);">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="font-medium">Email Notifications</p>
-                            <p class="text-sm text-muted">Get notified of transactions</p>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" checked>
-                            <span class="slider"></span>
-                        </label>
+                <div class="flex justify-between items-center"
+                    style="padding: 12px 0; border-bottom: 1px solid var(--border);">
+                    <div>
+                        <div style="font-weight: 500;">Email Notifications</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Get notified of transactions</div>
                     </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
                 </div>
-
-                <div style="border-top: 1px solid var(--color-border); padding-top: var(--space-md);">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="font-medium">Hide Balances</p>
-                            <p class="text-sm text-muted">Mask values on dashboard</p>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox">
-                            <span class="slider"></span>
-                        </label>
+                <div class="flex justify-between items-center" style="padding: 12px 0;">
+                    <div>
+                        <div style="font-weight: 500;">Hide Balances</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Mask values on dashboard</div>
                     </div>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
                 </div>
             </div>
         </div>
@@ -208,53 +192,39 @@
         <!-- Guardians -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Guardians</h3>
-                <button class="btn btn-ghost btn-sm" onclick="addGuardian()">+ Add</button>
+                <span class="card-label">Guardians</span>
+                <button class="btn btn-sm">Add</button>
             </div>
-            <p class="text-secondary mb-lg">
-                Guardians hold recovery shards and can help you regain access if you lose your device.
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                Guardians hold recovery shards for account recovery.
             </p>
             <div class="flex flex-col gap-md">
-                <div class="flex items-center justify-between p-md"
-                    style="background: var(--color-bg-glass); border-radius: var(--radius-md);">
-                    <div class="flex items-center gap-md">
-                        <div
-                            style="width: 40px; height: 40px; background: var(--color-bg-tertiary); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center;">
-                            👤
-                        </div>
+                <div class="policy-card">
+                    <div class="policy-info">
+                        <div class="policy-icon">JD</div>
                         <div>
-                            <p class="font-medium">John D.</p>
-                            <p class="text-sm text-muted">john@example.com</p>
+                            <div class="policy-name">John D.</div>
+                            <div class="policy-desc">john@example.com</div>
                         </div>
                     </div>
                     <span class="badge badge-success">Confirmed</span>
                 </div>
-
-                <div class="flex items-center justify-between p-md"
-                    style="background: var(--color-bg-glass); border-radius: var(--radius-md);">
-                    <div class="flex items-center gap-md">
-                        <div
-                            style="width: 40px; height: 40px; background: var(--color-bg-tertiary); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center;">
-                            👤
-                        </div>
+                <div class="policy-card">
+                    <div class="policy-info">
+                        <div class="policy-icon">SM</div>
                         <div>
-                            <p class="font-medium">Sarah M.</p>
-                            <p class="text-sm text-muted">sarah@example.com</p>
+                            <div class="policy-name">Sarah M.</div>
+                            <div class="policy-desc">sarah@example.com</div>
                         </div>
                     </div>
                     <span class="badge badge-success">Confirmed</span>
                 </div>
-
-                <div class="flex items-center justify-between p-md"
-                    style="background: var(--color-bg-glass); border-radius: var(--radius-md);">
-                    <div class="flex items-center gap-md">
-                        <div
-                            style="width: 40px; height: 40px; background: var(--color-bg-tertiary); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center;">
-                            👤
-                        </div>
+                <div class="policy-card">
+                    <div class="policy-info">
+                        <div class="policy-icon">MT</div>
                         <div>
-                            <p class="font-medium">Mike T.</p>
-                            <p class="text-sm text-muted">mike@example.com</p>
+                            <div class="policy-name">Mike T.</div>
+                            <div class="policy-desc">mike@example.com</div>
                         </div>
                     </div>
                     <span class="badge badge-warning">Pending</span>
@@ -263,99 +233,16 @@
         </div>
 
         <!-- Danger Zone -->
-        <div class="card" style="border: 1px solid var(--color-error);">
+        <div class="card" style="border: 1px solid var(--state-error);">
             <div class="card-header">
-                <h3 class="card-title text-error">Danger Zone</h3>
+                <span class="card-label" style="color: var(--state-error);">Danger Zone</span>
             </div>
             <div class="flex gap-md">
-                <button class="btn btn-secondary" onclick="exportData()">Export Data</button>
-                <button class="btn btn-secondary text-error" onclick="logout()">Logout</button>
+                <button class="btn">Export Data</button>
+                <button class="btn" style="color: var(--state-error);"
+                    onclick="localStorage.removeItem('whale_token'); window.location.href='/login';">Logout</button>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    /* Toggle Switch */
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 48px;
-        height: 28px;
-        flex-shrink: 0;
-    }
-
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: var(--color-bg-tertiary);
-        transition: var(--transition-fast);
-        border-radius: var(--radius-full);
-    }
-
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 20px;
-        width: 20px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: var(--transition-fast);
-        border-radius: 50%;
-    }
-
-    input:checked+.slider {
-        background: var(--color-accent-gradient);
-    }
-
-    input:checked+.slider:before {
-        transform: translateX(20px);
-    }
-</style>
-{% endblock %}
-
-{% block scripts %}
-<script>
-    function rotateKeys() {
-        WhaleWallet.Toast.info('Key rotation requires mobile app confirmation');
-    }
-
-    function configureDuress() {
-        WhaleWallet.Toast.info('Opening duress mode configuration...');
-    }
-
-    function pingInheritance() {
-        WhaleWallet.Toast.success('Dead Man\'s Switch pinged successfully');
-    }
-
-    function configureInheritance() {
-        WhaleWallet.Toast.info('Opening inheritance configuration...');
-    }
-
-    function addGuardian() {
-        WhaleWallet.Toast.info('Opening guardian invitation...');
-    }
-
-    function exportData() {
-        WhaleWallet.Toast.info('Preparing data export...');
-    }
-
-    function logout() {
-        if (confirm('Are you sure you want to logout?')) {
-            WhaleWallet.API.clearToken();
-            window.location.href = '/login';
-        }
-    }
-</script>
 {% endblock %}
