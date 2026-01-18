@@ -1,0 +1,92 @@
+services:
+  # Main API Service
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - WHALE_ENV=development
+      - WHALE_LOG_LEVEL=DEBUG
+      - WHALE_API_PORT=8080
+      - WHALE_DB_HOST=postgres
+      - WHALE_DB_PORT=5432
+      - WHALE_DB_NAME=whale_wallet
+      - WHALE_DB_USER=whale_api
+      - WHALE_DB_PASSWORD=devpassword123
+      - WHALE_REDIS_HOST=redis
+      - WHALE_REDIS_PORT=6379
+      - WHALE_JWT_SECRET=dev-jwt-secret-minimum-32-characters-long
+      - WHALE_ENCRYPTION_KEY=dev-encryption-key-32-bytes-xx
+      - WHALE_LLM_PROVIDER=anthropic
+      - WHALE_LLM_MODEL=claude-sonnet-4-20250514
+      - WHALE_LLM_API_KEY=${ANTHROPIC_API_KEY:-placeholder}
+      - WHALE_ENABLE_DURESS_MODE=true
+      - WHALE_ENABLE_INHERITANCE=true
+      - WHALE_ENABLE_AI_CONCIERGE=true
+      - WHALE_ATTESTATION_ENABLED=false
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./app:/app/app:ro # Mount for hot reload in dev
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=whale_api
+      - POSTGRES_PASSWORD=devpassword123
+      - POSTGRES_DB=whale_wallet
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infrastructure/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U whale_api -d whale_wallet" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: redis-server --appendonly yes
+
+  # Database Admin UI (development only)
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+    profiles:
+      - dev
+
+volumes:
+  postgres_data:
+  redis_data:
+
+
+networks:
+  default:
+    name: whale_network
