@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block title %}AI Concierge - Whale Wallet{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">AI Concierge</h1>
+        <p class="page-subtitle">Your personal crypto wealth advisor, powered by Claude</p>
+    </div>
+    <div class="flex gap-md">
+        <button class="btn btn-secondary" onclick="clearChat()">
+            Clear Chat
+        </button>
+    </div>
+</div>
+
+<div class="card chat-container">
+    <!-- Chat Messages -->
+    <div class="chat-messages" id="chat-messages">
+        <!-- Welcome Message -->
+        <div class="chat-message ai">
+            <div class="chat-avatar ai">🐋</div>
+            <div class="chat-bubble">
+                <p class="mb-md">Welcome to your AI Concierge! I'm here to help you with:</p>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                    <li>💼 Portfolio analysis and rebalancing strategies</li>
+                    <li>🔒 Security policy recommendations</li>
+                    <li>📊 Transaction risk assessment</li>
+                    <li>📈 Market insights and research</li>
+                    <li>🛡️ Smart contract security reviews</li>
+                </ul>
+                <p>How can I assist you today?</p>
+            </div>
+        </div>
+
+        <!-- Sample Conversation -->
+        <div class="chat-message user">
+            <div class="chat-avatar user">👤</div>
+            <div class="chat-bubble">
+                What's the risk level if I interact with the Uniswap V3 router contract?
+            </div>
+        </div>
+
+        <div class="chat-message ai">
+            <div class="chat-avatar ai">🐋</div>
+            <div class="chat-bubble">
+                <p class="mb-md"><strong>Contract Analysis: Uniswap V3 Router</strong></p>
+                <div class="mb-md"
+                    style="padding: var(--space-md); background: rgba(16, 185, 129, 0.1); border-radius: var(--radius-md); border-left: 3px solid var(--color-success);">
+                    <div class="flex items-center gap-sm mb-sm">
+                        <span class="badge badge-success">Low Risk</span>
+                        <span class="text-success">✓ Verified Contract</span>
+                    </div>
+                    <p class="text-sm">Contract: 0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45</p>
+                </div>
+                <p class="mb-sm"><strong>Security Checks:</strong></p>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                    <li>✅ Source code verified on Etherscan</li>
+                    <li>✅ Audited by multiple firms (Trail of Bits, ABDK)</li>
+                    <li>✅ No known vulnerabilities</li>
+                    <li>✅ $45B+ total value locked historically</li>
+                    <li>✅ Matches your whitelist policies</li>
+                </ul>
+                <p>This contract is safe to interact with. Would you like me to simulate a specific swap?</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Suggestions -->
+    <div class="flex gap-sm p-md" style="border-top: 1px solid var(--color-border); overflow-x: auto;">
+        <button class="btn btn-secondary btn-sm" onclick="sendSuggestion('Analyze my portfolio allocation')">
+            📊 Portfolio Analysis
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="sendSuggestion('What security policies should I add?')">
+            🛡️ Security Tips
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="sendSuggestion('Check if this address is safe: 0x...')">
+            🔍 Address Check
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="sendSuggestion('Explain MPC key rotation')">
+            🔐 MPC Help
+        </button>
+    </div>
+
+    <!-- Chat Input -->
+    <div class="chat-input-container">
+        <div class="chat-input-wrapper">
+            <input type="text" id="chat-input" placeholder="Ask anything about your wallet, transactions, or crypto..."
+                onkeypress="handleChatKeypress(event)">
+            <button class="btn btn-primary" onclick="sendMessage()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Concierge Features -->
+<div class="grid grid-3 mt-xl">
+    <div class="card">
+        <div class="flex items-center gap-md mb-md">
+            <div
+                style="width: 48px; height: 48px; background: rgba(0, 212, 170, 0.15); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                📊
+            </div>
+            <h4>Transaction Analysis</h4>
+        </div>
+        <p class="text-secondary">Get AI-powered risk assessments before signing any transaction. Understand gas costs,
+            slippage, and potential issues.</p>
+    </div>
+
+    <div class="card">
+        <div class="flex items-center gap-md mb-md">
+            <div
+                style="width: 48px; height: 48px; background: rgba(59, 130, 246, 0.15); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                🔮
+            </div>
+            <h4>Policy Suggestions</h4>
+        </div>
+        <p class="text-secondary">Receive personalized security recommendations based on your transaction patterns and
+            risk tolerance.</p>
+    </div>
+
+    <div class="card">
+        <div class="flex items-center gap-md mb-md">
+            <div
+                style="width: 48px; height: 48px; background: rgba(130, 71, 229, 0.15); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                📚
+            </div>
+            <h4>Learning Resources</h4>
+        </div>
+        <p class="text-secondary">Ask about any crypto concept, from DeFi strategies to security best practices. Your
+            personal crypto encyclopedia.</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const chatMessages = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+
+    function sendMessage() {
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        // Add user message
+        addMessage(message, 'user');
+        chatInput.value = '';
+
+        // Simulate AI response
+        setTimeout(() => {
+            addTypingIndicator();
+
+            setTimeout(() => {
+                removeTypingIndicator();
+                addMessage(getAIResponse(message), 'ai');
+            }, 1500);
+        }, 500);
+    }
+
+    function addMessage(content, type) {
+        const isHtml = content.includes('<');
+        const msgHtml = `
+    <div class="chat-message ${type} slide-up">
+      <div class="chat-avatar ${type}">${type === 'ai' ? '🐋' : '👤'}</div>
+      <div class="chat-bubble">${isHtml ? content : `<p>${content}</p>`}</div>
+    </div>
+  `;
+        chatMessages.insertAdjacentHTML('beforeend', msgHtml);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function addTypingIndicator() {
+        const html = `
+    <div class="chat-message ai" id="typing-indicator">
+      <div class="chat-avatar ai">🐋</div>
+      <div class="chat-bubble">
+        <div class="flex gap-sm">
+          <span class="loading-spinner" style="width: 16px; height: 16px;"></span>
+          <span class="text-muted">Thinking...</span>
+        </div>
+      </div>
+    </div>
+  `;
+        chatMessages.insertAdjacentHTML('beforeend', html);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+        const indicator = document.getElementById('typing-indicator');
+        if (indicator) indicator.remove();
+    }
+
+    function getAIResponse(message) {
+        const lowerMsg = message.toLowerCase();
+
+        if (lowerMsg.includes('portfolio') || lowerMsg.includes('allocation')) {
+            return `
+      <p class="mb-md"><strong>Portfolio Analysis</strong></p>
+      <p class="mb-md">Your current allocation:</p>
+      <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+        <li>ETH: 80% ($987K) - <span class="text-warning">High concentration</span></li>
+        <li>BTC: 12% ($150K) - Reasonable</li>
+        <li>SOL: 4% ($50K) - Underweight</li>
+        <li>Others: 4% ($47K)</li>
+      </ul>
+      <p><strong>Recommendation:</strong> Consider diversifying your ETH position. A balanced HNW portfolio typically has no more than 40% in a single asset. Would you like rebalancing suggestions?</p>
+    `;
+        }
+
+        if (lowerMsg.includes('security') || lowerMsg.includes('policy')) {
+            return `
+      <p class="mb-md"><strong>Security Recommendations</strong></p>
+      <p class="mb-md">Based on your current setup, I suggest:</p>
+      <ol style="margin-left: 1.5rem; margin-bottom: 1rem;">
+        <li>✅ <strong>Add geographic restriction</strong> - Block transactions from high-risk regions</li>
+        <li>⚠️ <strong>Enable 2FA for large transactions</strong> - Require additional verification for >$25K</li>
+        <li>✅ <strong>Schedule key rotation</strong> - Your keys haven't been rotated in 30 days</li>
+      </ol>
+      <p>Want me to help set up any of these policies?</p>
+    `;
+        }
+
+        if (lowerMsg.includes('mpc') || lowerMsg.includes('key')) {
+            return `
+      <p class="mb-md"><strong>MPC Key Management</strong></p>
+      <p class="mb-md">Your wallet uses <strong>2-of-3 MPC threshold signing</strong>:</p>
+      <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+        <li>📱 <strong>Shard A (Mobile)</strong>: Stored in your device's Secure Enclave</li>
+        <li>☁️ <strong>Shard B (Server)</strong>: Stored in our cloud TEE (Trusted Execution Environment)</li>
+        <li>🔑 <strong>Shard C (Recovery)</strong>: Distributed among your guardians</li>
+      </ul>
+      <p>Key rotation creates new shards without changing your wallet addresses. This is recommended every 90 days. Would you like to initiate a key rotation?</p>
+    `;
+        }
+
+        return `
+    <p>I understand you're asking about "${message.substring(0, 50)}..."</p>
+    <p class="mt-md">I can help you with portfolio analysis, security recommendations, transaction simulations, and general crypto questions. What specific aspect would you like to explore?</p>
+  `;
+    }
+
+    function handleChatKeypress(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    }
+
+    function sendSuggestion(text) {
+        chatInput.value = text;
+        sendMessage();
+    }
+
+    function clearChat() {
+        chatMessages.innerHTML = `
+    <div class="chat-message ai">
+      <div class="chat-avatar ai">🐋</div>
+      <div class="chat-bubble">
+        <p>Chat cleared. How can I help you?</p>
+      </div>
+    </div>
+  `;
+    }
+</script>
+{% endblock %}

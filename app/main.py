@@ -85,15 +85,19 @@ def create_application() -> FastAPI:
     This pattern allows for easy testing by creating fresh
     application instances with different configurations.
     """
+    import os
+    from fastapi.staticfiles import StaticFiles
+    from app.api.views import view_router
+    
     settings = get_settings()
     
     app = FastAPI(
         title="Whale Wallet",
         description="Sovereign Wealth Preservation System for Digital Assets",
         version="1.0.0",
-        docs_url="/docs" if settings.debug else None,
+        docs_url="/docs",  # Always enable docs for now
         redoc_url="/redoc" if settings.debug else None,
-        openapi_url="/openapi.json" if settings.debug else None,
+        openapi_url="/openapi.json",  # Always enable OpenAPI
         lifespan=lifespan
     )
     
@@ -105,7 +109,9 @@ def create_application() -> FastAPI:
         CORSMiddleware,
         allow_origins=[
             "http://localhost:3000",  # Development
+            "http://localhost:8080",  # Local development
             "https://app.whalewallet.io",  # Production
+            "https://whale-api-191939075930.us-central1.run.app",  # Cloud Run
         ],
         allow_credentials=True,
         allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -130,11 +136,20 @@ def create_application() -> FastAPI:
     if settings.attestation_enabled:
         app.add_middleware(AttestationMiddleware)
     
+    # === Static Files ===
+    static_dir = os.path.join(os.path.dirname(__file__), "static")
+    if os.path.exists(static_dir):
+        app.mount("/static", StaticFiles(directory=static_dir), name="static")
+    
     # === Routers ===
     app.include_router(health_router, tags=["Health"])
     app.include_router(api_router, prefix="/api/v1")
     
+    # === Frontend View Routes ===
+    app.include_router(view_router)
+    
     return app
+
 
 
 # Create the application instance

@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Whale Wallet{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Welcome back. Your wealth is secure.</p>
+    </div>
+    <div class="flex gap-md">
+        <button class="btn btn-secondary" onclick="window.location.href='/transactions'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            New Transaction
+        </button>
+        <button class="btn btn-primary" onclick="window.location.href='/concierge'">
+            🤖 Ask Concierge
+        </button>
+    </div>
+</div>
+
+<!-- Portfolio Value Card -->
+<div class="card card-glow mb-xl"
+    style="background: linear-gradient(135deg, rgba(0, 212, 170, 0.1) 0%, rgba(14, 165, 233, 0.1) 100%);">
+    <div class="flex justify-between items-start">
+        <div>
+            <p class="text-secondary mb-sm">Total Portfolio Value</p>
+            <h2 class="stat-value lg text-gradient" id="total-value">$1,234,567.89</h2>
+            <div class="flex items-center gap-md mt-md">
+                <span class="stat-change up">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                    </svg>
+                    +12.4% (24h)
+                </span>
+                <span class="text-muted">Last synced: Just now</span>
+            </div>
+        </div>
+        <div class="mpc-status">
+            <div class="mpc-shard">
+                <div class="mpc-shard-icon active">📱</div>
+                <span class="mpc-shard-label">Mobile</span>
+            </div>
+            <div class="mpc-shard">
+                <div class="mpc-shard-icon active">☁️</div>
+                <span class="mpc-shard-label">Server</span>
+            </div>
+            <div class="mpc-shard">
+                <div class="mpc-shard-icon active">🔑</div>
+                <span class="mpc-shard-label">Recovery</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stats Grid -->
+<div class="grid grid-4 mb-xl">
+    <div class="card">
+        <div class="flex items-center gap-md mb-md">
+            <div
+                style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.15); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 1.5rem;">⧫</span>
+            </div>
+            <div>
+                <p class="stat-label">Ethereum</p>
+                <p class="stat-value" style="font-size: 1.25rem;">45.123 ETH</p>
+            </div>
+        </div>
+        <p class="text-secondary">≈ $987,654.32</p>
+    </div>
+
+    <div class="card">
+        <div class="flex items-center gap-md mb-md">
+            <div
+                style="width: 48px; height: 48px; background: rgba(247, 147, 26, 0.15); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 1.5rem;">₿</span>
+            </div>
+            <div>
+                <p class="stat-label">Bitcoin</p>
+                <p class="stat-value" style="font-size: 1.25rem;">2.5 BTC</p>
+            </div>
+        </div>
+        <p class="text-secondary">≈ $150,000.00</p>
+    </div>
+
+    <div class="card">
+        <div class="flex items-center gap-md mb-md">
+            <div
+                style="width: 48px; height: 48px; background: rgba(20, 241, 149, 0.15); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 1.5rem;">◎</span>
+            </div>
+            <div>
+                <p class="stat-label">Solana</p>
+                <p class="stat-value" style="font-size: 1.25rem;">500 SOL</p>
+            </div>
+        </div>
+        <p class="text-secondary">≈ $50,000.00</p>
+    </div>
+
+    <div class="card">
+        <div class="flex items-center gap-md mb-md">
+            <div
+                style="width: 48px; height: 48px; background: rgba(0, 212, 170, 0.15); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 1.5rem;">+12</span>
+            </div>
+            <div>
+                <p class="stat-label">Other Assets</p>
+                <p class="stat-value" style="font-size: 1.25rem;">12 Chains</p>
+            </div>
+        </div>
+        <p class="text-secondary">≈ $46,913.57</p>
+    </div>
+</div>
+
+<!-- Two Column Layout -->
+<div class="grid grid-2">
+    <!-- Recent Transactions -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Recent Transactions</h3>
+            <a href="/transactions" class="btn btn-ghost btn-sm">View All →</a>
+        </div>
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody id="recent-transactions">
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-sm">
+                                <span style="color: var(--color-success);">↗</span>
+                                <span>Send ETH</span>
+                            </div>
+                        </td>
+                        <td class="mono">-1.5 ETH</td>
+                        <td><span class="badge badge-success">Confirmed</span></td>
+                        <td class="text-muted">2h ago</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-sm">
+                                <span style="color: var(--color-info);">↙</span>
+                                <span>Receive SOL</span>
+                            </div>
+                        </td>
+                        <td class="mono text-success">+50 SOL</td>
+                        <td><span class="badge badge-success">Confirmed</span></td>
+                        <td class="text-muted">5h ago</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-sm">
+                                <span style="color: var(--color-warning);">⟳</span>
+                                <span>Swap USDC</span>
+                            </div>
+                        </td>
+                        <td class="mono">5,000 USDC → ETH</td>
+                        <td><span class="badge badge-warning">Pending</span></td>
+                        <td class="text-muted">1d ago</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Active Policies -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Active Policies</h3>
+            <a href="/policies" class="btn btn-ghost btn-sm">Manage →</a>
+        </div>
+        <div class="flex flex-col gap-md">
+            <div class="flex items-center justify-between p-md"
+                style="background: var(--color-bg-glass); border-radius: var(--radius-md);">
+                <div class="flex items-center gap-md">
+                    <div
+                        style="width: 40px; height: 40px; background: rgba(16, 185, 129, 0.15); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+                        ⏱
+                    </div>
+                    <div>
+                        <p class="font-medium">Daily Limit</p>
+                        <p class="text-sm text-muted">Max $10,000 per day</p>
+                    </div>
+                </div>
+                <span class="badge badge-success">Active</span>
+            </div>
+
+            <div class="flex items-center justify-between p-md"
+                style="background: var(--color-bg-glass); border-radius: var(--radius-md);">
+                <div class="flex items-center gap-md">
+                    <div
+                        style="width: 40px; height: 40px; background: rgba(59, 130, 246, 0.15); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+                        ✓
+                    </div>
+                    <div>
+                        <p class="font-medium">Whitelist Only</p>
+                        <p class="text-sm text-muted">5 addresses approved</p>
+                    </div>
+                </div>
+                <span class="badge badge-success">Active</span>
+            </div>
+
+            <div class="flex items-center justify-between p-md"
+                style="background: var(--color-bg-glass); border-radius: var(--radius-md);">
+                <div class="flex items-center gap-md">
+                    <div
+                        style="width: 40px; height: 40px; background: rgba(245, 158, 11, 0.15); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+                        🔒
+                    </div>
+                    <div>
+                        <p class="font-medium">Time Lock</p>
+                        <p class="text-sm text-muted">24h delay for &gt;$50k</p>
+                    </div>
+                </div>
+                <span class="badge badge-success">Active</span>
+            </div>
+
+            <div class="flex items-center justify-between p-md"
+                style="background: var(--color-bg-glass); border-radius: var(--radius-md);">
+                <div class="flex items-center gap-md">
+                    <div
+                        style="width: 40px; height: 40px; background: rgba(239, 68, 68, 0.15); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+                        🚨
+                    </div>
+                    <div>
+                        <p class="font-medium">Duress Mode</p>
+                        <p class="text-sm text-muted">Decoy wallet ready</p>
+                    </div>
+                </div>
+                <span class="badge badge-primary">Ready</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Security Status Banner -->
+<div class="card mt-xl" style="border-left: 3px solid var(--color-success);">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-lg">
+            <div
+                style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.15); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                🛡️
+            </div>
+            <div>
+                <h4 class="font-medium">Security Status: Excellent</h4>
+                <p class="text-secondary">All MPC shards active • Last key rotation: 30 days ago • Inheritance
+                    configured</p>
+            </div>
+        </div>
+        <a href="/settings" class="btn btn-secondary">Security Settings</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Dashboard-specific JavaScript
+    document.addEventListener('DOMContentLoaded', async () => {
+        // In production, fetch real data
+        // const overview = await WhaleWallet.API.get('/wallet/overview');
+        // document.getElementById('total-value').textContent = WhaleWallet.Format.currency(overview.total_usd_value);
+
+        console.log('Dashboard loaded');
+    });
+</script>
+{% endblock %}
