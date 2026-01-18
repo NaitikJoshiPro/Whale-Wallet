@@ -1,8 +1,8 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    WHALE WALLET - COMPLETE STYLING
    ═══════════════════════════════════════════════════════════════════════════
-   Based on ORION design system
-   Monochrome authority. Dark/light duality. Motion restraint.
+   Premium Minimalist Design with Subtle Crypto Accents
+   Dark authority. Glassmorphism. Refined motion.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* =============================================================================
@@ -11,56 +11,65 @@
 
 :root,
 :root[data-theme="dark"] {
-  /* Backgrounds - Pure black gradations */
-  --bg-primary: #000000;
-  --bg-secondary: #080808;
-  --bg-elevated: #0f0f0f;
-  --bg-card: #141414;
-  --bg-input: #1a1a1a;
+  /* Backgrounds - Deep ocean gradations */
+  --bg-primary: #030508;
+  --bg-secondary: #080a0d;
+  --bg-elevated: #0c0f14;
+  --bg-card: #111419;
+  --bg-input: #161a21;
 
-  /* Borders */
-  --border: #1a1a1a;
-  --border-hover: #2a2a2a;
-  --border-focus: #3a3a3a;
+  /* Borders - Subtle luminosity */
+  --border: #1c2028;
+  --border-hover: #2a303a;
+  --border-focus: #3a4250;
 
-  /* Text - White gradations */
-  --text-primary: #f5f5f5;
-  --text-secondary: #808080;
-  --text-muted: #4d4d4d;
-  --text-inverse: #000000;
+  /* Text - Refined white spectrum */
+  --text-primary: #f0f2f5;
+  --text-secondary: #8892a0;
+  --text-muted: #4a5260;
+  --text-inverse: #030508;
 
-  /* Accent - Monochrome only */
-  --accent-primary: #e6e6e6;
-  --accent-glow: rgba(230, 230, 230, 0.15);
+  /* Accent - Subtle teal/cyan for crypto aesthetic */
+  --accent-primary: #5eead4;
+  --accent-secondary: #14b8a6;
+  --accent-glow: rgba(94, 234, 212, 0.12);
+  --accent-gradient: linear-gradient(135deg, #5eead4 0%, #14b8a6 100%);
 
-  /* State Colors */
-  --state-success: #22c55e;
-  --state-warning: #f59e0b;
-  --state-error: #ef4444;
-  --state-info: #3b82f6;
+  /* State Colors - Refined */
+  --state-success: #34d399;
+  --state-warning: #fbbf24;
+  --state-error: #f87171;
+  --state-info: #60a5fa;
 
   /* State Dim */
-  --state-success-dim: rgba(34, 197, 94, 0.15);
-  --state-warning-dim: rgba(245, 158, 11, 0.15);
-  --state-error-dim: rgba(239, 68, 68, 0.15);
-  --state-info-dim: rgba(59, 130, 246, 0.15);
+  --state-success-dim: rgba(52, 211, 153, 0.12);
+  --state-warning-dim: rgba(251, 191, 36, 0.12);
+  --state-error-dim: rgba(248, 113, 113, 0.12);
+  --state-info-dim: rgba(96, 165, 250, 0.12);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(17, 20, 25, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.06);
 }
 
 :root[data-theme="light"] {
-  --bg-primary: #e8e6e1;
-  --bg-secondary: #f0eeea;
-  --bg-elevated: #f5f3ef;
+  --bg-primary: #f4f5f7;
+  --bg-secondary: #ebedf0;
+  --bg-elevated: #ffffff;
   --bg-card: #ffffff;
-  --bg-input: #e0ddd7;
-  --border: #c8c4be;
-  --border-hover: #b0aca6;
-  --border-focus: #989490;
-  --text-primary: #1a1a1a;
-  --text-secondary: #4a4a4a;
-  --text-muted: #7a7a7a;
+  --bg-input: #e4e6e9;
+  --border: #d1d5db;
+  --border-hover: #b8bfc7;
+  --border-focus: #9ca3af;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
   --text-inverse: #ffffff;
-  --accent-primary: #2a2a2a;
-  --accent-glow: rgba(42, 42, 42, 0.08);
+  --accent-primary: #0d9488;
+  --accent-secondary: #14b8a6;
+  --accent-glow: rgba(13, 148, 136, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(0, 0, 0, 0.05);
 }
 
 /* =============================================================================
@@ -125,16 +134,17 @@ a:hover {
   position: fixed;
   left: 0;
   top: 0;
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(12px);
-  border-right: 1px solid var(--border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid var(--glass-border);
   display: flex;
   flex-direction: column;
   z-index: 100;
 }
 
 [data-theme="light"] .sidebar {
-  background: rgba(232, 230, 225, 0.95);
+  background: var(--glass-bg);
 }
 
 .sidebar-header {
@@ -195,18 +205,21 @@ a:hover {
   color: var(--text-primary);
   background: var(--bg-elevated);
   text-decoration: none;
+  transform: translateX(2px);
 }
 
 .nav-item.active {
-  color: var(--text-primary);
+  color: var(--accent-primary);
   background: var(--accent-glow);
-  border: 1px solid var(--border-hover);
+  border: 1px solid rgba(94, 234, 212, 0.2);
+  box-shadow: 0 0 20px var(--accent-glow);
 }
 
 .nav-icon {
   width: 18px;
   height: 18px;
   opacity: 0.7;
+  transition: all 0.2s;
 }
 
 .nav-item.active .nav-icon,
